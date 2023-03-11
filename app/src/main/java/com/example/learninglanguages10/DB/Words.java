@@ -11,16 +11,16 @@ public class Words {
     public Integer id;
 
     @ColumnInfo(name = "word")
-    public String word;
+    public static String word;
 
     @ColumnInfo(name = "translation")
-    public String translation;
+    public static String translation;
 
     @ColumnInfo(name = "language")
-    public String language;
+    public static String language;
 
     @ColumnInfo(name = "level")
-    public String level;
+    public static String level;
 
     public long getId() {
         return id;

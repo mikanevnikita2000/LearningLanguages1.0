@@ -12,11 +12,13 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface WordsDao<TAG> {
+public interface WordsDao {
     @Query("SELECT * FROM words")
     List<Words> getAll();
+
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     void insert(Words words);
+
     @Update
     void update(Words words);
 }

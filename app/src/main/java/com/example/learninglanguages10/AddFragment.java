@@ -27,12 +27,7 @@ public class AddFragment extends Fragment {
     List<Words> list = new ArrayList<>();
     private AppDB database;
 
-    private void initDB() {
-        database = Room.databaseBuilder(getContext(),
-                        AppDB.class, "words")
-                .fallbackToDestructiveMigration()
-                .build();
-    }
+
 
 
     public AddFragment() {
@@ -50,7 +45,7 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewReturn = inflater.inflate(R.layout.fragment_add, container, false);
-
+        initDB();
         levelAdd = (EditText) viewReturn.findViewById(R.id.levelAdd);
         wordAdd = (EditText) viewReturn.findViewById(R.id.word);
         translationAdd = (EditText) viewReturn.findViewById(R.id.translationAdd);
@@ -60,18 +55,25 @@ public class AddFragment extends Fragment {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String level = levelAdd.getText().toString();
-                String word = wordAdd.getText().toString();
-                String translation = translationAdd.getText().toString();
-                String language = languageAdd.getText().toString();
-
-                //addItem(words);
+                Words words = new Words();
+                words.level = levelAdd.getText().toString();
+                words.word = wordAdd.getText().toString();
+                words.translation = translationAdd.getText().toString();
+                words.language = languageAdd.getText().toString();
+                addItem(words);
+                updateItem(words);
             }
         });
-
-
         return viewReturn;
     }
+
+    private void initDB() {
+        database = Room.databaseBuilder(getContext(),
+                        AppDB.class, "words")
+                .fallbackToDestructiveMigration()
+                .build();
+    }
+
     public void addItem(Words words){
         list.add(words);
         Thread thread = new Thread(new Runnable() {
@@ -81,6 +83,7 @@ public class AddFragment extends Fragment {
         });
         thread.start();
     }
+
     private void updateItem(Words words){
         Thread thread = new Thread(new Runnable() {
             public void run() {
